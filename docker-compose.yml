@@ -1,0 +1,18 @@
+services:
+  app:
+    build:
+      context: .
+    image: comisiones-app
+    container_name: dataops_app
+    # Solo se listan los NOMBRES: los valores llegan desde el entorno de quien
+    # ejecuta (Jenkins con withCredentials, o tu terminal en pruebas locales).
+    environment:
+      - AMBIENTE
+      - PERIODO
+      - STORAGE_MODE
+      - AZURE_STORAGE_CONNECTION_STRING
+      - PG_PASSWORD
+      - SMTP_ENABLED
+    volumes:
+      - ./lake_local:/lake      # usado solo con STORAGE_MODE=local
+      - ./reports:/reports      # resultados de pytest (JUnit) para Jenkins

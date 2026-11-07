@@ -1,0 +1,16 @@
+# Secretos y variables locales (NUNCA subir)
+.env
+infra/1_local_variables.txt
+*.pem
+
+# Salidas generadas
+lake_local/
+reports/
+*.parquet
+*.xlsx
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/

@@ -1,0 +1,6 @@
+pandas
+psycopg2-binary
+openpyxl
+pyarrow
+azure-storage-blob
+pytest

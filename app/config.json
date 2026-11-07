@@ -1,0 +1,24 @@
+{
+  "db": {
+    "host": "mgg.vps.webdock.cloud",
+    "port": 5432,
+    "dbname": "dmc",
+    "user": "usr_ro_dmc_rrhh_estudiantes"
+  },
+  "lake": {
+    "modo": "azure",
+    "contenedor": "lake",
+    "local_dir": "/lake"
+  },
+  "smtp": {
+    "server": "mgg.vps.webdock.cloud",
+    "port": 1025,
+    "user": "",
+    "sender_email": "Python DataOps <pydataops@example.com>"
+  },
+  "report": {
+    "to": "usuario.dmc@gmail.com",
+    "subject": "LIZETH - Comisiones Calculadas",
+    "body_html": "Estimado(a), <br>Adjunto encontrarás el archivo con las comisiones calculadas.<br>Saludos."
+  }
+}

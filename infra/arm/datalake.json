@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "metadata": {
+    "description": "Data Lake (ADLS Gen2) del proyecto de comisiones. Se despliega una vez por ambiente (dev/prd)."
+  },
+  "parameters": {
+    "storageAccountName": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 24,
+      "metadata": { "description": "Nombre del Storage Account (solo minúsculas y números)" }
+    },
+    "ambiente": {
+      "type": "string",
+      "allowedValues": [ "dev", "prd" ]
+    },
+    "location": {
+      "type": "string",
+      "defaultValue": "[resourceGroup().location]"
+    },
+    "containerName": {
+      "type": "string",
+      "defaultValue": "lake"
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "2023-01-01",
+      "name": "[parameters('storageAccountName')]",
+      "location": "[parameters('location')]",
+      "sku": { "name": "Standard_LRS" },
+      "kind": "StorageV2",
+      "tags": { "proyecto": "dataops-comisiones", "ambiente": "[parameters('ambiente')]" },
+      "properties": {
+        "isHnsEnabled": true,
+        "minimumTlsVersion": "TLS1_2",
+        "allowBlobPublicAccess": false,
+        "supportsHttpsTrafficOnly": true,
+        "accessTier": "Hot"
+      }
+    },
+    {
+      "type": "Microsoft.Storage/storageAccounts/blobServices/containers",
+      "apiVersion": "2023-01-01",
+      "name": "[concat(parameters('storageAccountName'), '/default/', parameters('containerName'))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Storage/storageAccounts', parameters('storageAccountName'))]"
+      ],
+      "properties": { "publicAccess": "None" }
+    }
+  ],
+  "outputs": {
+    "dfsEndpoint": {
+      "type": "string",
+      "value": "[reference(parameters('storageAccountName')).primaryEndpoints.dfs]"
+    }
+  }
+}
